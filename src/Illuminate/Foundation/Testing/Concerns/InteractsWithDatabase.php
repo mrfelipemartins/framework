@@ -27,7 +27,8 @@ trait InteractsWithDatabase
     protected function assertDatabaseHas($table, array $data, $connection = null)
     {
         $this->assertThat(
-            $this->getTable($table), new HasInDatabase($this->getConnection($connection, $table), $data)
+            $this->getTable($table),
+            new HasInDatabase($this->getConnection($connection, $table), $data)
         );
 
         return $this;
@@ -63,7 +64,8 @@ trait InteractsWithDatabase
     protected function assertDatabaseCount($table, int $count, $connection = null)
     {
         $this->assertThat(
-            $this->getTable($table), new CountInDatabase($this->getConnection($connection, $table), $count)
+            $this->getTable($table),
+            new CountInDatabase($this->getConnection($connection, $table), $count)
         );
 
         return $this;
@@ -79,7 +81,8 @@ trait InteractsWithDatabase
     protected function assertDatabaseEmpty($table, $connection = null)
     {
         $this->assertThat(
-            $this->getTable($table), new CountInDatabase($this->getConnection($connection, $table), 0)
+            $this->getTable($table),
+            new CountInDatabase($this->getConnection($connection, $table), 0)
         );
 
         return $this;
@@ -267,6 +270,17 @@ trait InteractsWithDatabase
     protected function getTable($table)
     {
         return $this->newModelFor($table)?->getTable() ?: $table;
+    }
+
+    /**
+     * Get the qualified table name from the given model or string.
+     *
+     * @param  \Illuminate\Database\Eloquent\Model|string  $table
+     * @return string
+     */
+    protected function getQualifiedTableName($table)
+    {
+        return $this->newModelFor($table)?->getQualifiedTableName();
     }
 
     /**
